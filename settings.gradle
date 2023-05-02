@@ -5,3 +5,5 @@ include 'practice:step1-bean'
 include 'practice:step2-servlet'
 
 include 'application-context:generic-application-context'
+include 'application-context:annotation-config-application-context'
+include 'application-context:realworld-spring-boot'

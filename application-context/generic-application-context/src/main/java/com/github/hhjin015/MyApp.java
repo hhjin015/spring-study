@@ -4,12 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServer;
-import org.springframework.boot.web.servlet.ServletContextInitializer;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 
 @Slf4j
 public class MyApp {
