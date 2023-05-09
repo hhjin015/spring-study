@@ -1,9 +1,9 @@
 package com.github.hhjin015;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController // json 을 반환해
 public class TodoController {
@@ -20,9 +20,21 @@ public class TodoController {
         return ResponseEntity.ok(todo);
     }
 
-    @GetMapping(value = "/todos/{name}")
-    public ResponseEntity<Todo> find(@PathVariable String name) {
-        Todo todo = service.findBy(name);
+    @GetMapping(value = "/todos")
+    public ResponseEntity<List<Todo>> findAll() {
+        List<Todo> list = service.findAll();
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping(value = "/todos/{id}")
+    public ResponseEntity<Todo> findById(@PathVariable int id) {
+        Todo todo = service.findById(id);
+        return ResponseEntity.ok(todo);
+    }
+
+    @DeleteMapping(value = "/todos/{id}")
+    public ResponseEntity<Todo> deleteById(@PathVariable int id) {
+        Todo todo = service.deleteById(id);
         return ResponseEntity.ok(todo);
     }
 }

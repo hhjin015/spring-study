@@ -1,11 +1,9 @@
 package com.github.hhjin015.repository;
 
 import com.github.hhjin015.Todo;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class InMemoryTodoRepository implements TodoRepository {
@@ -14,11 +12,40 @@ public class InMemoryTodoRepository implements TodoRepository {
 
     @Override
     public void save(Todo todo) {
-        storage.put(todo.getName(), todo);
+        if (storage.containsKey(todo.getName())) {
+            throw new RuntimeException();
+        } else {
+            storage.put(todo.getName(), todo);
+        }
     }
 
     @Override
-    public Todo findByName(String name) {
-        return storage.get(name);
+    public Todo findById(int id) {
+        for(String str : storage.keySet()) {
+            Todo todo = storage.get(str);
+            if(todo.getId() == id && !todo.isDeleted()) return todo;
+        }
+        return null;
+    }
+
+    @Override
+    public List<Todo> findAll() {
+        List<Todo> list = new ArrayList<>();
+        for(String str : storage.keySet()) {
+            if(!storage.get(str).isDeleted()) list.add(storage.get(str));
+        }
+        return list;
+    }
+
+    @Override
+    public Todo deleteById(int id) {
+        Todo todo = null;
+        for(String str : storage.keySet()) {
+            if(storage.get(str).getId() == id) {
+                todo = storage.get(str);
+                todo.setDeleted(true);
+            }
+        }
+        return todo;
     }
 }

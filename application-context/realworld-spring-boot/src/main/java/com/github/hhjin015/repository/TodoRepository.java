@@ -1,10 +1,14 @@
 package com.github.hhjin015.repository;
 
 import com.github.hhjin015.Todo;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
 public interface TodoRepository {
     void save(Todo todo);
 
-    Todo findByName(String name);
+    Todo findById(int id);
+
+    List<Todo> findAll();
+
+    Todo deleteById(int id);
 }
