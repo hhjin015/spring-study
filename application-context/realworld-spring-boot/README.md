@@ -9,7 +9,7 @@
   - 수정 일시가 업데이트되어야 한다
 - **change todo status**
   - 다음 상태로 전환이 가능해야한다
-    - PLANED
+    - PLANNED
     - IN_PROGRESS
     - DONE
 - **todo 삭제**

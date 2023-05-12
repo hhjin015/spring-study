@@ -20,10 +20,10 @@ public class InMemoryTodoRepository implements TodoRepository {
     }
 
     @Override
-    public Todo findById(int id) {
-        for(String str : storage.keySet()) {
+    public Todo findById(long id) {
+        for (String str : storage.keySet()) {
             Todo todo = storage.get(str);
-            if(todo.getId() == id && !todo.isDeleted()) return todo;
+            if (todo.getId() == id && !todo.isDeleted()) return todo;
         }
         return null;
     }
@@ -31,17 +31,17 @@ public class InMemoryTodoRepository implements TodoRepository {
     @Override
     public List<Todo> findAll() {
         List<Todo> list = new ArrayList<>();
-        for(String str : storage.keySet()) {
-            if(!storage.get(str).isDeleted()) list.add(storage.get(str));
+        for (String str : storage.keySet()) {
+            if (!storage.get(str).isDeleted()) list.add(storage.get(str));
         }
         return list;
     }
 
     @Override
-    public Todo deleteById(int id) {
+    public Todo deleteById(long id) {
         Todo todo = null;
-        for(String str : storage.keySet()) {
-            if(storage.get(str).getId() == id) {
+        for (String str : storage.keySet()) {
+            if (storage.get(str).getId() == id) {
                 todo = storage.get(str);
                 todo.setDeleted(true);
             }

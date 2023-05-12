@@ -4,6 +4,7 @@ import com.github.hhjin015.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 // application layer
@@ -19,7 +20,7 @@ public class TodoService {
         return todo;
     }
 
-    public Todo findById(int id) {
+    public Todo findById(long id) {
         return repository.findById(id);
     }
 
@@ -27,7 +28,22 @@ public class TodoService {
         return repository.findAll();
     }
 
-    public Todo deleteById(int id) {
+    public Todo deleteById(long id) {
         return repository.deleteById(id);
+    }
+
+    public Todo update(long id, String name) {
+        Todo todo = repository.findById(id);
+        todo.setName(name);
+        todo.setUpdatedAt(LocalDateTime.now());
+
+        return todo;
+    }
+
+    public Todo updateStatus(long id, String status) {
+        Todo todo = findById(id);
+        todo.setStatus(status);
+
+        return todo;
     }
 }
