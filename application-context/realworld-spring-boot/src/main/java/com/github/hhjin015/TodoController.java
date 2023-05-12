@@ -41,6 +41,8 @@ public class TodoController {
 
     @PutMapping(value = "/todos/{id}")
     public ResponseEntity<Todo> update(@PathVariable long id, @RequestBody CreateTodoRequest body) {
+        // TODO SRP (single responsible principal) 를 적용해보자!
+
         Todo todo = service.update(id, body.getName());
 
         return ResponseEntity.ok(todo);
@@ -48,8 +50,9 @@ public class TodoController {
 
     @PutMapping(value = "/todos/status/{id}")
     public ResponseEntity<Todo> updateStatus(@PathVariable long id, @RequestBody Map<String, String> map) {
+        // TODO map 보다 명시적인 클래스로 분리하는 것도 좋아보여요
+        // 근데 꼭 request Body 1: 1 dto class 이건 아니고, 이런식으로 map 으로 받는것도 not bad
         Todo todo = service.updateStatus(id, map.get("status"));
-
         return ResponseEntity.ok(todo);
     }
 }

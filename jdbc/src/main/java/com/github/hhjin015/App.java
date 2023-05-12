@@ -1,13 +1,11 @@
-package com.github.hhjin015.springstudy;
+package com.github.hhjin015;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringStudyApplication {
-
+public class App {
     public static void main(String[] args) {
-        SpringApplication.run(SpringStudyApplication.class, args);
+        SpringApplication.run(App.class, args);
     }
-
 }

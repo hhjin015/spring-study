@@ -1,12 +1,10 @@
 package com.github.hhjin015;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 public class Todo {
 
     long id;
@@ -23,5 +21,14 @@ public class Todo {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = null;
         this.status = "PLANNED";
+    }
+
+    public void rename(String name) {
+        this.name = name;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void transitTo(String status) {
+        this.status = status;
     }
 }

@@ -43,7 +43,6 @@ public class InMemoryTodoRepository implements TodoRepository {
         for (String str : storage.keySet()) {
             if (storage.get(str).getId() == id) {
                 todo = storage.get(str);
-                todo.setDeleted(true);
             }
         }
         return todo;
