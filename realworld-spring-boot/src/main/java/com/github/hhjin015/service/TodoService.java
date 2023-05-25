@@ -1,5 +1,7 @@
-package com.github.hhjin015;
+package com.github.hhjin015.service;
 
+import com.github.hhjin015.util.IdGenerator;
+import com.github.hhjin015.domain.Todo;
 import com.github.hhjin015.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,10 +14,10 @@ import java.util.List;
 public class TodoService {
     /**
      * TODO
-     *
+     * <p>
      * service class 가 가져야하는 책임 != business logic
      * -> orchestration
-     *  -> repository 에서 x 를 꺼내오고 x 한테 y 라는 기능 수행해줘. 그리고 다시 repository 에 x 를 저장해줘
+     * -> repository 에서 x 를 꺼내오고 x 한테 y 라는 기능 수행해줘. 그리고 다시 repository 에 x 를 저장해줘
      */
 
     private final TodoRepository repository;

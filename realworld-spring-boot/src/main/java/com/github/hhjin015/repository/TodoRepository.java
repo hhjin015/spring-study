@@ -1,6 +1,6 @@
 package com.github.hhjin015.repository;
 
-import com.github.hhjin015.Todo;
+import com.github.hhjin015.domain.Todo;
 
 import java.util.List;
 

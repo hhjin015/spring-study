@@ -1,4 +1,4 @@
-package com.github.hhjin015;
+package com.github.hhjin015.domain;
 
 import lombok.Getter;
 
