@@ -13,10 +13,9 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public Member create(int money) throws SQLException {
+    public long create(int money) throws SQLException {
         Member member = new Member(money);
-        memberRepository.save(member);
-        return member;
+        return memberRepository.save(member);
     }
 }
 

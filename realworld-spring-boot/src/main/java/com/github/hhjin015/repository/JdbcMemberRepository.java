@@ -12,23 +12,29 @@ import java.sql.*;
 public class JdbcMemberRepository implements MemberRepository {
 
     @Override
-    public void save(Member member) throws SQLException {
+    public long save(Member member) throws SQLException {
         String sql = "insert into member(money) values (?)";
 
         Connection conn = null;
         PreparedStatement pstmt = null;
-
+        long id = 0;
         try {
             conn = getConnection();
-            pstmt = conn.prepareStatement(sql);
+            pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             pstmt.setInt(1, member.getMoney());
             pstmt.executeUpdate();
+            ResultSet generatedKeys = pstmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                id = generatedKeys.getLong(1);
+            }
+
         } catch (SQLException e) {
             log.error("db error", e);
             throw e;
         } finally {
             close(conn, pstmt, null);
         }
+        return id;
     }
 
     private void close(Connection conn, Statement stmt, ResultSet rs) {
