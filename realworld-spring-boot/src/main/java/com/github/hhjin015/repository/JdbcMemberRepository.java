@@ -18,16 +18,17 @@ public class JdbcMemberRepository implements MemberRepository {
         Connection conn = null;
         PreparedStatement pstmt = null;
         long id = 0;
+
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             pstmt.setInt(1, member.getMoney());
             pstmt.executeUpdate();
             ResultSet generatedKeys = pstmt.getGeneratedKeys();
+
             if (generatedKeys.next()) {
                 id = generatedKeys.getLong(1);
             }
-
         } catch (SQLException e) {
             log.error("db error", e);
             throw e;
@@ -36,6 +37,35 @@ public class JdbcMemberRepository implements MemberRepository {
         }
         return id;
     }
+
+    @Override
+    public Member findById(int id) throws SQLException {
+        String sql = "select * from member where member_id=(?)";
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet resultSet = null;
+        Member member;
+
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+
+            resultSet = pstmt.executeQuery();
+            resultSet.next();
+            int getId = resultSet.getInt(1);
+            int getMoney = resultSet.getInt(2);
+            member = new Member(getId, getMoney);
+        } catch (SQLException e) {
+            log.error("findById error", e);
+            throw e;
+        } finally {
+            close(conn, pstmt, resultSet);
+        }
+        return member;
+    }
+
 
     private void close(Connection conn, Statement stmt, ResultSet rs) {
         if (rs != null) {

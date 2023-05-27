@@ -17,5 +17,9 @@ public class MemberService {
         Member member = new Member(money);
         return memberRepository.save(member);
     }
+
+    public Member findById(int id) throws SQLException {
+        return memberRepository.findById(id);
+    }
 }
 

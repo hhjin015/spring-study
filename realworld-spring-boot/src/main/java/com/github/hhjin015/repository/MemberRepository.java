@@ -6,4 +6,6 @@ import java.sql.SQLException;
 
 public interface MemberRepository {
     long save(Member member) throws SQLException;
+
+    Member findById(int id) throws SQLException;
 }

@@ -5,10 +5,7 @@ import com.github.hhjin015.request.CreateMemberRequest;
 import com.github.hhjin015.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 
@@ -22,5 +19,11 @@ public class MemberController {
     public ResponseEntity<Long> create(@RequestBody CreateMemberRequest request) throws SQLException {
         long memberId = memberService.create(request.getMoney());
         return ResponseEntity.ok(memberId);
+    }
+
+    @GetMapping(value = "/member/{id}")
+    public ResponseEntity<Member> findById(@PathVariable int id) throws SQLException {
+        Member member = memberService.findById(id);
+        return ResponseEntity.ok(member);
     }
 }
