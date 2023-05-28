@@ -24,7 +24,7 @@ public class TodoService {
 
     // command
     public Todo create(String name) {
-        Todo todo = new Todo(IdGenerator.get(), name);
+        Todo todo = Todo.newTodo(IdGenerator.get(), name);
         repository.save(todo);
         return todo;
     }

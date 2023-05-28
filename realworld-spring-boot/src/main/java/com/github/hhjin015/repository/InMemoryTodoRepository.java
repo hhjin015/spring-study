@@ -1,11 +1,9 @@
 package com.github.hhjin015.repository;
 
 import com.github.hhjin015.domain.Todo;
-import org.springframework.stereotype.Repository;
-
 import java.util.*;
 
-@Repository
+//@Repository
 public class InMemoryTodoRepository implements TodoRepository {
 
     private final Map<String, Todo> storage = new HashMap<>();
