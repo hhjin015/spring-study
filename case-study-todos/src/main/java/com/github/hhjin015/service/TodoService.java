@@ -1,5 +1,6 @@
 package com.github.hhjin015.service;
 
+import com.github.hhjin015.repository.JdbcTodoRepository;
 import com.github.hhjin015.util.IdGenerator;
 import com.github.hhjin015.domain.Todo;
 import com.github.hhjin015.repository.TodoRepository;
@@ -21,6 +22,7 @@ public class TodoService {
      */
 
     private final TodoRepository repository;
+    private final JdbcTodoRepository jdbcTodoRepository;
 
     // command
     public Todo create(String name) {
@@ -30,7 +32,7 @@ public class TodoService {
     }
 
     // command
-    public Todo deleteById(long id) {
+    public int deleteById(long id) {
         return repository.deleteById(id);
     }
 
@@ -55,7 +57,7 @@ public class TodoService {
 
     // query
     public Todo findById(long id) {
-        return repository.findById(id);
+        return jdbcTodoRepository.findById(id);
     }
 
     // query

@@ -11,5 +11,5 @@ public interface TodoRepository {
 
     List<Todo> findAll();
 
-    Todo deleteById(long id);
+    int deleteById(long id);
 }

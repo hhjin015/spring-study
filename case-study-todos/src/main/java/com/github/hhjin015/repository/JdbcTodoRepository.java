@@ -22,6 +22,7 @@ public class JdbcTodoRepository implements TodoRepository {
     public void save(Todo todo) {
         Connection connection = null;
         PreparedStatement ps = null;
+
         try {
             connection = dataSource.getConnection();
             ps = connection.prepareStatement("INSERT INTO todos (id, name, is_deleted, created_at, updated_at, status) VALUES (?,?,?,?,?,?)");
@@ -37,8 +38,8 @@ public class JdbcTodoRepository implements TodoRepository {
             throw new RuntimeException(e);
         } finally {
             try {
-                ps.close();
-                connection.close();
+                if (ps != null) ps.close();
+                if (connection != null) connection.close();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -49,28 +50,31 @@ public class JdbcTodoRepository implements TodoRepository {
     public Todo findById(long id) {
         Connection connection = null;
         PreparedStatement ps = null;
-        Todo todo;
+        ResultSet resultSet = null;
+
         try {
             connection = dataSource.getConnection();
-            ps = connection.prepareStatement("SELECT * FROM todos WHERE id = (?)");
+            ps = connection.prepareStatement("SELECT * FROM todos WHERE id = (?) AND is_deleted = false");
             ps.setLong(1, id);
 
-            ResultSet resultSet = ps.executeQuery();
-            resultSet.next();
+            resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                return Todo.loadFromDB(
+                        resultSet.getLong(1),
+                        resultSet.getString(2),
+                        resultSet.getBoolean(3),
+                        resultSet.getObject(4, LocalDateTime.class),
+                        resultSet.getObject(5, LocalDateTime.class),
+                        resultSet.getString(6));
+            } else return null;
 
-            return Todo.loadFromDB(
-                    resultSet.getLong(1),
-                    resultSet.getString(2),
-                    resultSet.getBoolean(3),
-                    resultSet.getObject(4, LocalDateTime.class),
-                    resultSet.getObject(5, LocalDateTime.class),
-                    resultSet.getString(6));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
             try {
-                ps.close();
-                connection.close();
+                if (ps != null) ps.close();
+                if (connection != null) connection.close();
+                if (resultSet != null) resultSet.close();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -83,7 +87,25 @@ public class JdbcTodoRepository implements TodoRepository {
     }
 
     @Override
-    public Todo deleteById(long id) {
-        return null;
+    public int deleteById(long id) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+
+        try {
+            connection = dataSource.getConnection();
+            ps = connection.prepareStatement("UPDATE todos SET is_deleted = true WHERE id = (?)");
+            ps.setLong(1, id);
+
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        } finally {
+            try {
+                if (connection != null) connection.close();
+                if (ps != null) ps.close();
+            } catch (SQLException e) {
+                throw new RuntimeException();
+            }
+        }
     }
 }

@@ -37,5 +37,12 @@ class JdbcTodoRepositoryTest {
 
         Todo actual = sut.findById(1);
         Assertions.assertThat(actual.getName()).isEqualTo(name);
+
+        int actual2 = sut.deleteById(1);
+        Assertions.assertThat(actual2).isEqualTo(1);
+
+        Todo actual3 = sut.findById(1);
+        Assertions.assertThat(actual3).isNull();
     }
+
 }

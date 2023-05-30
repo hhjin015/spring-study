@@ -3,6 +3,7 @@ package com.github.hhjin015.controller;
 import com.github.hhjin015.request.CreateTodoRequest;
 import com.github.hhjin015.service.TodoService;
 import com.github.hhjin015.domain.Todo;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,9 +38,9 @@ public class TodoController {
     }
 
     @DeleteMapping(value = "/todos/{id}")
-    public ResponseEntity<Todo> deleteById(@PathVariable long id) {
-        Todo todo = service.deleteById(id);
-        return ResponseEntity.ok(todo);
+    public ResponseEntity<Integer> deleteById(@PathVariable long id) {
+        int isSuccess = service.deleteById(id);
+        return ResponseEntity.ok(isSuccess);
     }
 
     @PutMapping(value = "/todos/{id}")

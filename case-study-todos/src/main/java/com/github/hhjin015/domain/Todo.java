@@ -1,10 +1,12 @@
 package com.github.hhjin015.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 public class Todo {
 
     public static Todo newTodo(long id, String name) {

@@ -1,6 +1,7 @@
 package com.github.hhjin015.repository;
 
 import com.github.hhjin015.domain.Todo;
+
 import java.util.*;
 
 //@Repository
@@ -36,13 +37,14 @@ public class InMemoryTodoRepository implements TodoRepository {
     }
 
     @Override
-    public Todo deleteById(long id) {
-        Todo todo = null;
+    public int deleteById(long id) {
         for (String str : storage.keySet()) {
-            if (storage.get(str).getId() == id) {
-                todo = storage.get(str);
+            Todo todo = storage.get(str);
+            if (todo.getId() == id) {
+                todo.setDeleted(true);
+                return 1;
             }
         }
-        return todo;
+        return 0;
     }
 }
