@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @SpringBootTest
 class JdbcTodoRepositoryTest {
@@ -45,4 +46,17 @@ class JdbcTodoRepositoryTest {
         Assertions.assertThat(actual3).isNull();
     }
 
+    @Test
+    void findAll() {
+        sut.save(Todo.newTodo(1, "jang"));
+        sut.save(Todo.newTodo(2, "heo"));
+        sut.save(Todo.newTodo(3, "kim"));
+        sut.save(Todo.newTodo(4, "james"));
+
+        sut.deleteById(2);
+
+        List<Todo> actual = sut.findAll();
+
+        Assertions.assertThat(actual.size()).isEqualTo(3);
+    }
 }

@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -83,7 +84,37 @@ public class JdbcTodoRepository implements TodoRepository {
 
     @Override
     public List<Todo> findAll() {
-        return null;
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        List<Todo> todos = new ArrayList<>();
+
+        try {
+            connection = dataSource.getConnection();
+            ps = connection.prepareStatement("SELECT * FROM todos WHERE is_deleted = false");
+            resultSet = ps.executeQuery();
+
+            while (resultSet.next()) {
+                todos.add(Todo.loadFromDB(
+                        resultSet.getLong(1),
+                        resultSet.getString(2),
+                        resultSet.getBoolean(3),
+                        resultSet.getObject(4, LocalDateTime.class),
+                        resultSet.getObject(5, LocalDateTime.class),
+                        resultSet.getString(6)));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        } finally {
+            try {
+                if (connection != null) connection.close();
+                if (ps != null) ps.close();
+                if (resultSet != null) resultSet.close();
+            } catch (SQLException e) {
+                throw new RuntimeException();
+            }
+        }
+        return todos;
     }
 
     @Override
